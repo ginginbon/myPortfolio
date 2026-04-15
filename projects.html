@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Progetti — Ginevra Boneschi</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { background: #f5f5f5; }
+
+    .projects-header {
+      padding: 3rem 2rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .projects-header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .projects-header p {
+      color: #888;
+      font-size: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+
+    .grid-item {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 2 / 3;
+      background: var(--dark);
+      cursor: pointer;
+    }
+
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .grid-item:hover img {
+      transform: scale(1.05);
+      opacity: 0.35;
+    }
+
+    .grid-item-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .grid-item:hover .grid-item-overlay {
+      opacity: 1;
+    }
+
+    .grid-item-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .grid-item-title {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+    }
+
+    .grid-item-link {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .grid-item-link:hover {
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4px;
+        padding: 0 1rem 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">GB</a>
+    <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="index.html#about">Chi sono</a></li>
+      <li><a href="projects.html">Progetti</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+      <li><a href="index.html#contact">Contatti</a></li>
+      <li><a href="assets/cv.pdf" target="_blank">CV</a></li>
+    </ul>
+  </nav>
+
+  <div class="projects-header">
+    <h1>Progetti</h1>
+    <p>Una selezione di lavori che raccontano cosa so fare e come lo faccio.</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="grid-item">
+      <img src="images/project0.jpg" alt="Progetto" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">—</div>
+        <div class="grid-item-title">Progetto</div>
+        <a href="project-placeholder.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="images/project1.jpg" alt="Nina Love App" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">Audio & Storytelling</div>
+        <div class="grid-item-title">Nina Love App</div>
+        <a href="project-nina-love-app.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="images/project2.jpg" alt="Progetto 2" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">Content Strategy · 2024</div>
+        <div class="grid-item-title">Progetto 2</div>
+        <a href="project-2.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="images/project3.jpg" alt="Progetto 3" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">AI Content · 2024</div>
+        <div class="grid-item-title">Progetto 3</div>
+        <a href="project-3.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="images/project4.jpg" alt="Progetto 4" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">Brand Voice · 2023</div>
+        <div class="grid-item-title">Progetto 4</div>
+        <a href="project-4.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="images/project5.jpg" alt="Progetto 5" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">Copywriting · 2023</div>
+        <div class="grid-item-title">Progetto 5</div>
+        <a href="project-5.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="images/project6.jpg" alt="Progetto 6" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">Content Strategy · 2023</div>
+        <div class="grid-item-title">Progetto 6</div>
+        <a href="project-6.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="images/project7.jpg" alt="Progetto 7" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">AI Content · 2022</div>
+        <div class="grid-item-title">Progetto 7</div>
+        <a href="project-7.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="images/project8.jpg" alt="Progetto 8" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">Brand Voice · 2022</div>
+        <div class="grid-item-title">Progetto 8</div>
+        <a href="project-8.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="images/project9.jpg" alt="Progetto 9" />
+      <div class="grid-item-overlay">
+        <div class="grid-item-tag">Copywriting · 2022</div>
+        <div class="grid-item-title">Progetto 9</div>
+        <a href="project-9.html" class="grid-item-link">Scopri →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
