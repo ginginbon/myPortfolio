@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qual è il nostro grado di compatibilità? WORK EDITION | Ginevra Boneschi</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif;
+      background: #fff;
+      color: #1a1a1a;
+      padding: 2rem 1rem;
+    }
+    .quiz-wrap {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+    .quiz-intro { margin-bottom: 2rem; }
+    .quiz-intro h1 {
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .quiz-intro p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+    }
+    .progress-bar-wrap {
+      height: 3px;
+      background: #e5e5e5;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+    }
+    .progress-bar-fill {
+      height: 3px;
+      background: #7F77DD;
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+    .question-block { display: none; }
+    .question-block.active { display: block; }
+    .q-number {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 10px;
+    }
+    .q-text {
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+    .q-sub {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .opt-btn {
+      background: #fff;
+      border: 0.5px solid #ccc;
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+      color: #1a1a1a;
+      line-height: 1.5;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .opt-btn:hover { border-color: #7F77DD; background: #EEEDFE; color: #3C3489; }
+    .opt-btn.selected { border-color: #7F77DD; background: #EEEDFE; color: #3C3489; font-weight: 500; }
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      font-size: 13px;
+      color: #aaa;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.15s;
+    }
+    .back-btn:hover { color: #555; }
+    .next-btn {
+      background: #fff;
+      border: 0.5px solid #ccc;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1a1a;
+      cursor: pointer;
+      display: none;
+      transition: background 0.15s;
+    }
+    .next-btn:hover { background: #f5f5f5; }
+    .next-btn.visible { display: inline-block; }
+    .result-block { display: none; }
+    .result-block.active { display: block; }
+    .result-title {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .result-desc {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .score-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    .result-cta {
+      display: inline-block;
+      background: #7F77DD;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-right: 10px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .result-cta:hover { background: #534AB7; }
+    .result-retry {
+      background: none;
+      border: 0.5px solid #ccc;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 14px;
+      color: #666;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .result-retry:hover { background: #f5f5f5; }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      font-size: 13px;
+      color: #888;
+      text-decoration: none;
+    }
+    .back-link:hover { color: #1a1a1a; }
+  </style>
+</head>
+<body>
+  <div class="quiz-wrap">
+    <a href="index.html" class="back-link">← Torna alla home</a>
+
+    <div class="quiz-intro">
+      <h1>Qual è il nostro grado di compatibilità? WORK EDITION</h1>
+      <p>5 domande. Nessuna risposta sbagliata (o quasi). Scopri se la nostra compatibilità professionale regge o se è meglio restare amici.</p>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress" style="width:0%"></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="question-block active" data-q="0">
+      <div class="q-number">Domanda 1 di 5</div>
+      <div class="q-text">Il tuo brand ha una voce. Come la descriveresti?</div>
+      <div class="q-sub">Niente giri di parole, tanto si capisce comunque</div>
+      <div class="options">
+        <button class="opt-btn" data-score="3">Non lo so ancora: è esattamente per questo che sono qui</button>
+        <button class="opt-btn" data-score="3">La stiamo costruendo, ma manca qualcosa</button>
+        <button class="opt-btn" data-score="2">Ce l'abbiamo, ma suona uguale a tutti gli altri</button>
+        <button class="opt-btn" data-score="0">Professionale, seria, istituzionale. Punto</button>
+      </div>
+      <div class="nav-row"><span></span><button class="next-btn" id="next-0" onclick="nextQ(0)">Avanti →</button></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-block" data-q="1">
+      <div class="q-number">Domanda 2 di 5</div>
+      <div class="q-text">Ti mando una prima bozza, ma è diversa da quello che ti immaginavi. Cosa fai?</div>
+      <div class="q-sub">Per me è importante sapere quali sono le tue aspettative</div>
+      <div class="options">
+        <button class="opt-btn" data-score="3">La leggo con curiosità, magari è meglio della mia idea</button>
+        <button class="opt-btn" data-score="2">Ti chiedo di spiegarmi le scelte, poi decido</button>
+        <button class="opt-btn" data-score="1">La riscrivo io e ti mando la versione "corretta"</button>
+        <button class="opt-btn" data-score="0">non la leggo nemmeno perché non è quello che ti ho chiesto</button>
+      </div>
+      <div class="nav-row"><button class="back-btn" onclick="prevQ(1)">← aspetta, ho risposto troppo in fretta!</button><button class="next-btn" id="next-1" onclick="nextQ(1)">Avanti →</button></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-block" data-q="2">
+      <div class="q-number">Domanda 3 di 5</div>
+      <div class="q-text">Hai visto la comunicazione di un competitor e ti è piaciuta. Cosa fai?</div>
+      <div class="q-sub">Questa risposta diventa parte del mio briefing</div>
+      <div class="options">
+        <button class="opt-btn" data-score="0">La mando come riferimento: voglio qualcosa di simile</button>
+        <button class="opt-btn" data-score="1">La mostro per il tono, ma voglio qualcosa di originale</button>
+        <button class="opt-btn" data-score="2">Ne parlo come spunto, poi mi fido del processo creativo</button>
+        <button class="opt-btn" data-score="3">Non guardo i competitor. Voglio partire da chi sono e da quello di cui ho bisogno</button>
+      </div>
+      <div class="nav-row"><button class="back-btn" onclick="prevQ(2)">← aspetta, ho risposto troppo in fretta!</button><button class="next-btn" id="next-2" onclick="nextQ(2)">Avanti →</button></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-block" data-q="3">
+      <div class="q-number">Domanda 4 di 5</div>
+      <div class="q-text">Come gestisci i tempi di un progetto creativo?</div>
+      <div class="q-sub">I miracoli non sono nel mio listino.</div>
+      <div class="options">
+        <button class="opt-btn" data-score="3">Con anticipo: il tempo è parte del processo</button>
+        <button class="opt-btn" data-score="2">Con qualche flessibilità, ma rispettando le deadline</button>
+        <button class="opt-btn" data-score="1">A volte le urgenze capitano. Possiamo parlarne?</button>
+        <button class="opt-btn" data-score="0">Ho bisogno di tutto per dopodomani. È sempre urgente</button>
+      </div>
+      <div class="nav-row"><button class="back-btn" onclick="prevQ(3)">← aspetta, ho risposto troppo in fretta!</button><button class="next-btn" id="next-3" onclick="nextQ(3)">Avanti →</button></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-block" data-q="4">
+      <div class="q-number">Domanda 5 di 5</div>
+      <div class="q-text">Ultima cosa. Cosa pensi dell'AI nella scrittura creativa?</div>
+      <div class="q-sub">Risposta personale. Promesso.</div>
+      <div class="options">
+        <button class="opt-btn" data-score="3">Uno strumento potente se usato con testa, ho voglia di capire come</button>
+        <button class="opt-btn" data-score="2">Non ne so molto, ma vorrei scoprirne il potenziale</button>
+        <button class="opt-btn" data-score="1">Ho qualche dubbio, un computer non può sostituire una persona</button>
+        <button class="opt-btn" data-score="0">L'AI uccide la creatività. Preferisco il metodo tradizionale</button>
+      </div>
+      <div class="nav-row"><button class="back-btn" onclick="prevQ(4)">← aspetta, ho risposto troppo in fretta!</button><button class="next-btn" id="next-4" onclick="showResult()">Scopri il risultato →</button></div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="result-block" id="result-perfect">
+      <div class="score-tag" style="background:#EEEDFE;color:#3C3489">Compatibilità: altissima</div>
+      <div class="result-title">Sei nel club esatto delle persone con cui voglio lavorare.</div>
+      <div class="result-desc">
+        Hai un progetto con un'anima, sai cosa vuoi ma hai voglia di essere sorpreso dal processo, e non hai paura di una comunicazione che lascia il segno. Sei esattamente il tipo di cliente per cui mi alzo la mattina con voglia di lavorare.<br><br>
+        <em>Scriviamo qualcosa di bello insieme?</em>
+      </div>
+      <a href="mailto:ginevra.boneschi91@gmail.com" class="result-cta">Scrivimi ↗</a>
+      <button class="result-retry" onclick="resetQuiz()">Rifai il test</button>
+    </div>
+
+    <div class="result-block" id="result-good">
+      <div class="score-tag" style="background:#E1F5EE;color:#085041">Compatibilità: buona</div>
+      <div class="result-title">Ci siamo quasi. Con qualche premessa, funziona.</div>
+      <div class="result-desc">
+        Hai le basi giuste: vuoi una comunicazione che valga la pena, sai che la creatività richiede tempo e fiducia. Forse hai ancora qualche riserva: sull'AI, sui rischi, sui feedback collettivi da 12 persone. Ma si lavora.<br><br>
+        <em>Parliamoci. Capiremo se la scintilla c'è.</em>
+      </div>
+      <a href="mailto:ginevra.boneschi91@gmail.com" class="result-cta">Scrivimi ↗</a>
+      <button class="result-retry" onclick="resetQuiz()">Rifai il test</button>
+    </div>
+
+    <div class="result-block" id="result-maybe">
+      <div class="score-tag" style="background:#FAEEDA;color:#633806">Compatibilità: da valutare</div>
+      <div class="result-title">Hmm. Parliamoci prima di impegnarci.</div>
+      <div class="result-desc">
+        Non è un no. Ma qualcosa mi dice che c'è ancora resistenza verso una comunicazione davvero tua, o che le urgenze dell'ultimo minuto sono una costante.<br><br>
+        Posso sbagliarmi. Se hai voglia di capirsi meglio, sono qui. Senza impegno.
+      </div>
+      <a href="mailto:ginevra.boneschi91@gmail.com" class="result-cta">Scrivimi comunque ↗</a>
+      <button class="result-retry" onclick="resetQuiz()">Rifai il test</button>
+    </div>
+
+    <div class="result-block" id="result-nope">
+      <div class="score-tag" style="background:#FAECE7;color:#712B13">Compatibilità: improbabile</div>
+      <div class="result-title">Ci vogliamo bene, ma non è la nostra storia.</div>
+      <div class="result-desc">
+        Vuoi una comunicazione neutra, istituzionale, senza rischi. Rispettabilissimo, ma non è quello che so fare meglio, né quello che mi entusiasma.<br><br>
+        Auguro di trovare la persona giusta per il progetto. Davvero. Ma se un giorno cambia idea sul rischiare qualcosa di diverso… sai dove trovarmi.
+      </div>
+      <button class="result-retry" onclick="resetQuiz()">Rifai il test (forse hai sbagliato qualcosa)</button>
+    </div>
+
+  </div>
+
+  <script>
+    let answers = [];
+    let totalScore = 0;
+
+    document.querySelectorAll('.opt-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const block = this.closest('.question-block');
+        const qIndex = parseInt(block.dataset.q);
+        block.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        answers[qIndex] = parseInt(this.dataset.score);
+        document.getElementById('next-' + qIndex).classList.add('visible');
+      });
+    });
+
+    function prevQ(current) {
+      document.querySelector('[data-q="' + current + '"]').classList.remove('active');
+      document.querySelector('[data-q="' + (current - 1) + '"]').classList.add('active');
+      document.getElementById('progress').style.width = ((current - 1) / 5 * 100) + '%';
+    }
+
+    function nextQ(current) {
+      if (answers[current] === undefined) return;
+      document.querySelector('[data-q="' + current + '"]').classList.remove('active');
+      document.querySelector('[data-q="' + (current + 1) + '"]').classList.add('active');
+      document.getElementById('progress').style.width = ((current + 2) / 5 * 100) + '%';
+    }
+
+    function showResult() {
+      if (answers[4] === undefined) return;
+      totalScore = answers.reduce((a, b) => a + b, 0);
+      document.querySelector('[data-q="4"]').classList.remove('active');
+      document.getElementById('progress').style.width = '100%';
+
+      let resultId, resultName;
+      if (totalScore >= 13) { resultId = 'result-perfect'; resultName = 'Compatibilità altissima'; }
+      else if (totalScore >= 9) { resultId = 'result-good'; resultName = 'Compatibilità buona'; }
+      else if (totalScore >= 5) { resultId = 'result-maybe'; resultName = 'Compatibilità da valutare'; }
+      else { resultId = 'result-nope'; resultName = 'Compatibilità improbabile'; }
+
+      const subject = encodeURIComponent('Risultato quiz: ' + resultName);
+      const body = encodeURIComponent('Ho fatto il tuo quiz e ho ottenuto: ' + resultName + ' (punteggio: ' + totalScore + '/15)');
+      const mailto = 'mailto:ginevra.boneschi91@gmail.com?subject=' + subject + '&body=' + body;
+
+      const cta = document.querySelector('#' + resultId + ' .result-cta');
+      if (cta) cta.href = mailto;
+
+      document.getElementById(resultId).classList.add('active');
+    }
+
+    function resetQuiz() {
+      answers = [];
+      totalScore = 0;
+      document.querySelectorAll('.question-block').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.result-block').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('.next-btn').forEach(b => b.classList.remove('visible'));
+      document.querySelector('[data-q="0"]').classList.add('active');
+      document.getElementById('progress').style.width = '0%';
+    }
+  </script>
+</body>
+</html>
