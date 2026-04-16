@@ -91,8 +91,6 @@ body {
   border: 3px solid var(--primary);
 }
 
-.hero-content { text-align: left; }
-
 .hero-content h1 {
   font-size: clamp(2rem, 6vw, 4rem);
   margin-bottom: 1rem;
