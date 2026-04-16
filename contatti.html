@@ -35,37 +35,72 @@
     .map-container {
       position: relative;
       width: 100%;
-      background: #e8e8e8;
       border-radius: 12px;
-      overflow: visible;
+      overflow: hidden;
     }
 
-    /* ── MAPPA SVG ── */
-    .map-wrap { position: relative; width: 100%; background: #f8f6f0; border-radius: 12px; overflow: hidden; }
-    .map-wrap svg { display: block; width: 100%; height: auto; }
-    .pin { cursor: pointer; }
-    .pin circle { transition: r 0.2s, opacity 0.2s; }
-    .pin:hover circle.outer { r: 10; opacity: 0.25; }
-    .tooltip {
+    .map-img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      filter: hue-rotate(150deg) saturate(1.2) brightness(0.88);
+    }
+
+    /* ── PIN ── */
+    .pin {
       position: absolute;
-      background: #1a1a1a;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .pin-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid rgba(255,255,255,0.6);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.25);
+      transition: transform 0.2s;
+    }
+
+    .pin.base .pin-dot {
+      width: 13px;
+      height: 13px;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.35);
+    }
+
+    .pin:hover .pin-dot {
+      transform: scale(1.5);
+    }
+
+    /* ── TOOLTIP ── */
+    .tooltip {
+      position: fixed;
+      background: #22252e;
       color: #fff;
       border-radius: 8px;
       padding: 10px 14px;
       font-size: 13px;
       line-height: 1.5;
-      max-width: 220px;
+      max-width: 240px;
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.2s;
-      z-index: 10;
+      z-index: 100;
     }
+
     .tooltip.visible { opacity: 1; }
-    .tooltip .city { font-weight: 600; font-size: 12px; color: #db2b56; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
-    .tooltip .phrase { font-size: 13px; color: #f5f5f5; }
-    .legend { display: flex; gap: 16px; padding: 10px 16px; font-size: 11px; color: #888; border-top: 0.5px solid #e5e5e5; background: #fff; flex-wrap: wrap; }
-    .legend-item { display: flex; align-items: center; gap: 5px; }
-    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .tooltip .city {
+      font-weight: 600;
+      font-size: 11px;
+      color: #db2b56;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .tooltip .phrase { font-size: 13px; color: #f0f0f0; }
 
     /* ── DESTRA: FORM ── */
     .form-section h2 {
@@ -103,14 +138,10 @@
     }
 
     .contact-form input:focus,
-    .contact-form textarea:focus {
-      border-color: #db2b56;
-    }
+    .contact-form textarea:focus { border-color: #db2b56; }
 
     .contact-form input::placeholder,
-    .contact-form textarea::placeholder {
-      color: #bbb;
-    }
+    .contact-form textarea::placeholder { color: #bbb; }
 
     .btn-submit {
       background: #db2b56;
@@ -160,167 +191,65 @@
       <h2>Di base a Milano. Disponibile ovunque.</h2>
       <p class="map-sub">Freelance non significa stare ferma.<br>Clicca i pin per scoprire dove sono stata — e cosa mi ha lasciato.</p>
 
-      <div class="map-wrap" id="mapwrap">
-        <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
-          <!-- Oceano -->
-          <rect width="1000" height="500" fill="#eef3f7"/>
+      <div class="map-container" id="mapwrap">
+        <img src="images/mappa.jpg" alt="Mappa del mondo" class="map-img" />
 
-          <!-- Groenlandia -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M292,72 L318,65 L348,63 L372,68 L382,80 L378,96 L362,108 L338,114 L312,110 L296,98 L288,84 Z"/>
-
-          <!-- Nord America -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="
-            M108,108 L128,102 L152,98 L178,96 L205,98 L232,103 L255,110 L272,120
-            L285,132 L292,145 L290,158 L282,170 L272,180 L262,192 L255,205
-            L248,215 L240,222 L228,228 L215,230 L202,226 L192,218 L186,208
-            L186,196 L190,184 L192,172 L188,160 L180,150 L170,143 L158,138
-            L148,130 L138,120 L122,114 Z
-          "/>
-          <!-- America Centrale -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M192,218 L202,226 L208,235 L205,242 L198,245 L190,240 L186,230 Z"/>
-
-          <!-- Sud America -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="
-            M222,248 L238,240 L255,238 L272,242 L288,252 L300,265 L312,278
-            L322,295 L330,312 L332,330 L328,348 L318,362 L305,372 L288,380
-            L270,382 L252,378 L238,368 L226,355 L218,340 L215,322 L216,305
-            L218,288 L220,272 L220,258 Z
-          "/>
-          <!-- Tierra del Fuego -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M245,382 L262,380 L268,390 L258,396 L244,392 Z"/>
-
-          <!-- Europa -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="
-            M432,138 L445,130 L458,125 L472,122 L486,124 L500,130 L512,138
-            L520,148 L522,160 L518,170 L510,178 L505,188 L498,192 L490,188
-            L484,180 L478,172 L470,168 L460,168 L450,172 L442,178 L436,185
-            L428,180 L425,168 L426,155 L428,145 Z
-          "/>
-          <!-- Penisola Iberica -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M426,155 L438,152 L444,158 L442,172 L436,182 L426,178 L422,168 L423,158 Z"/>
-          <!-- Scandinavia -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M462,108 L474,100 L482,108 L480,122 L472,128 L463,124 L458,115 Z"/>
-          <!-- Isole Britanniche -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M438,130 L448,125 L453,134 L448,143 L438,141 Z"/>
-          <!-- Italia -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M488,170 L493,178 L496,186 L492,192 L486,188 L484,180 L486,172 Z"/>
-          <!-- Grecia -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M506,178 L512,180 L510,188 L504,188 L502,180 Z"/>
-
-          <!-- Africa -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="
-            M448,196 L465,190 L482,190 L500,194 L518,200 L532,210 L542,222
-            L548,238 L548,255 L544,272 L536,286 L524,298 L510,306 L495,310
-            L480,308 L465,302 L452,292 L444,278 L438,262 L436,246 L438,230
-            L442,216 L445,205 Z
-          "/>
-          <!-- Corno d'Africa -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M548,238 L565,235 L570,248 L558,258 L548,252 Z"/>
-          <!-- Madagascar -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M528,295 L535,288 L540,298 L536,310 L528,308 Z"/>
-
-          <!-- Asia (corpo principale) -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="
-            M520,128 L548,120 L580,115 L618,112 L658,110 L700,110 L738,114
-            L772,120 L805,130 L832,142 L850,158 L855,175 L848,192 L835,205
-            L815,212 L792,215 L768,212 L742,210 L718,212 L695,218 L672,222
-            L648,225 L622,224 L598,220 L578,214 L560,206 L548,196 L538,184
-            L530,170 L524,155 L520,140 Z
-          "/>
-          <!-- Penisola Arabica -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M548,196 L568,196 L580,206 L584,222 L578,236 L566,242 L554,238 L548,226 L544,212 Z"/>
-          <!-- Subcontinente indiano -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M612,210 L630,212 L643,224 L648,240 L644,256 L635,268 L620,272 L608,265 L600,252 L598,236 L602,220 Z"/>
-          <!-- Indocina -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M730,212 L745,216 L750,230 L744,244 L730,248 L718,240 L715,226 L720,215 Z"/>
-          <!-- Malaysia/Sumatra approssimata -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M748,244 L772,248 L782,258 L775,268 L758,268 L748,258 Z"/>
-          <!-- Giappone -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M858,152 L870,148 L876,160 L870,172 L858,174 L850,165 Z"/>
-          <!-- Filippine approssimate -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M810,228 L818,222 L824,232 L818,242 L808,240 Z"/>
-
-          <!-- Australia -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="
-            M778,318 L808,312 L835,316 L856,326 L864,342 L860,358
-            L848,370 L830,378 L808,380 L788,374 L772,362 L765,346
-            L766,330 L772,320 Z
-          "/>
-          <!-- Nuova Zelanda - isola nord -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M920,365 L930,358 L936,368 L930,378 L920,375 Z"/>
-          <!-- Nuova Zelanda - isola sud -->
-          <path fill="#e2ddd4" stroke="#22252e" stroke-width="0.5" stroke-opacity="0.4" d="M916,382 L930,378 L938,390 L930,402 L916,398 L910,390 Z"/>
-
-          <g class="pin" onclick="showTip(event,'Milano','Quartier generale. Aperitivo imprescindibile. Da qui parte tutto — e qui torno sempre.')">
-            <circle cx="490" cy="168" r="14" fill="#db2b56" opacity="0.15" class="outer"/>
-            <circle cx="490" cy="168" r="7" fill="#db2b56"/>
-            <circle cx="490" cy="168" r="3" fill="#fff"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Spagna','La lingua la parlo, il ritmo di vita lo invidio. Ho capito che lavorare alle 14 è un crimine contro l\'umanità.')">
-            <circle cx="438" cy="172" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
-            <circle cx="438" cy="172" r="5" fill="#7F77DD"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Francia','Il paese che mi ha insegnato che il vino non è una bevanda, è una filosofia. Sto ancora studiando.')">
-            <circle cx="458" cy="163" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
-            <circle cx="458" cy="163" r="5" fill="#7F77DD"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'UK','Pioggia, sarcasmo e copywriting d\'eccellenza. Mi sono sentita a casa.')">
-            <circle cx="447" cy="152" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
-            <circle cx="447" cy="152" r="5" fill="#7F77DD"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Amsterdam','Canali, bici e brief creativi scritti su una panchina. La città più produttiva in cui abbia mai procrastinato.')">
-            <circle cx="466" cy="150" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
-            <circle cx="466" cy="150" r="5" fill="#7F77DD"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Sarajevo','Una città che racconta la storia senza alzare la voce. Ho imparato più sul potere delle parole qui che in qualsiasi corso.')">
-            <circle cx="498" cy="163" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
-            <circle cx="498" cy="163" r="5" fill="#7F77DD"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Egitto','Tremila anni di storytelling e io lì a prendere appunti. La narrativa dei Faraoni? Ottimo personal branding.')">
-            <circle cx="530" cy="195" r="10" fill="#1D9E75" opacity="0.15" class="outer"/>
-            <circle cx="530" cy="195" r="5" fill="#1D9E75"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Giordania','Petra esiste davvero. Ho scritto i copy migliori della mia vita in un riad con vista sul deserto.')">
-            <circle cx="548" cy="195" r="10" fill="#1D9E75" opacity="0.15" class="outer"/>
-            <circle cx="548" cy="195" r="5" fill="#1D9E75"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Siria','Il posto che più mi ha cambiato. La bellezza e la complessità del mondo in un unico luogo. Alcune storie vanno oltre le parole.')">
-            <circle cx="555" cy="183" r="10" fill="#1D9E75" opacity="0.15" class="outer"/>
-            <circle cx="555" cy="183" r="5" fill="#1D9E75"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'New York','Tutto funziona veloce, tutto comunica forte. Ho capito che il mio ritmo è europeo — ma l\'ambizione no.')">
-            <circle cx="248" cy="175" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
-            <circle cx="248" cy="175" r="5" fill="#7F77DD"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Malesia','Street food alle 7 di mattina, laptop aperto e deadline rispettate. Il nomadismo digitale nella sua forma più pura.')">
-            <circle cx="760" cy="248" r="10" fill="#D85A30" opacity="0.15" class="outer"/>
-            <circle cx="760" cy="248" r="5" fill="#D85A30"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Filippine','7.000 isole e io ho scelto quella con il wifi più lento. Ne è valsa la pena.')">
-            <circle cx="810" cy="238" r="10" fill="#D85A30" opacity="0.15" class="outer"/>
-            <circle cx="810" cy="238" r="5" fill="#D85A30"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Cina','La cucina più onesta del mondo: niente fuffa, solo sapore. Ho preso appunti anche lì — sul cibo e sulla comunicazione.')">
-            <circle cx="790" cy="190" r="10" fill="#D85A30" opacity="0.15" class="outer"/>
-            <circle cx="790" cy="190" r="5" fill="#D85A30"/>
-          </g>
-          <g class="pin" onclick="showTip(event,'Nuova Zelanda','Ho saltato da un ponte. Ho capito che il coraggio funziona allo stesso modo nel lavoro — ci vuole un attimo per buttarsi.')">
-            <circle cx="930" cy="400" r="10" fill="#D85A30" opacity="0.15" class="outer"/>
-            <circle cx="930" cy="400" r="5" fill="#D85A30"/>
-          </g>
-        </svg>
-
-        <div class="legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#db2b56"></div> Base</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div> Europa &amp; Nord America</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div> Medio Oriente</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#D85A30"></div> Asia &amp; Oceania</div>
+        <!-- Milano — base -->
+        <div class="pin base" style="left:59%;top:33%;" onclick="showTip(event,'Milano','Quartier generale. Aperitivo imprescindibile. Da qui parte tutto — e qui torno sempre.')">
+          <div class="pin-dot"></div>
         </div>
-      </div>
-
-      <div class="tooltip" id="tip">
-        <div class="city" id="tip-city"></div>
-        <div class="phrase" id="tip-phrase"></div>
+        <!-- Spagna -->
+        <div class="pin" style="left:46%;top:35%;" onclick="showTip(event,'Spagna','La lingua la parlo, il ritmo di vita lo invidio. Ho capito che lavorare alle 14 è un crimine contro l\'umanità.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Francia -->
+        <div class="pin" style="left:51%;top:30%;" onclick="showTip(event,'Francia','Il paese che mi ha insegnato che il vino non è una bevanda, è una filosofia. Sto ancora studiando.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Gran Bretagna -->
+        <div class="pin" style="left:49%;top:23%;" onclick="showTip(event,'Gran Bretagna','Tra il tè delle cinque e i pub, un posto dove rifugiarsi per lavorare quando piove lo trovi sempre. E piove spesso, quindi sono diventata molto produttiva.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Olanda -->
+        <div class="pin" style="left:53%;top:25%;" onclick="showTip(event,'Olanda','Canali, bici e brief creativi scritti su una panchina. La città più produttiva in cui abbia mai procrastinato.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Bosnia -->
+        <div class="pin" style="left:57%;top:30%;" onclick="showTip(event,'Bosnia','Una città che racconta la storia senza alzare la voce. Ho imparato più sul potere delle parole qui che in qualsiasi corso.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Egitto -->
+        <div class="pin" style="left:61%;top:43%;" onclick="showTip(event,'Egitto','Tremila anni di storytelling e io lì a prendere appunti. La narrativa dei Faraoni? Ottimo personal branding.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Giordania -->
+        <div class="pin" style="left:65%;top:41%;" onclick="showTip(event,'Giordania','Petra è l\'unico posto che mi ha lasciato senza parole. Per chi vive di parole, capirete che non è una cosa da poco.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Siria -->
+        <div class="pin" style="left:64%;top:36%;" onclick="showTip(event,'Siria','L\'anno prima che scoppiasse la guerra, un signore raccontava storie suonando in una lingua che non capivo. Eppure capivo tutto. Lì ho capito cos\'è davvero lo storytelling.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Stati Uniti -->
+        <div class="pin" style="left:23%;top:32%;" onclick="showTip(event,'Stati Uniti','Tutto funziona veloce, tutto comunica forte. Ho capito che il mio ritmo è europeo — ma l\'ambizione no.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Malesia -->
+        <div class="pin" style="left:78%;top:52%;" onclick="showTip(event,'Malesia','Street food alle 7 di mattina, laptop aperto e deadline rispettate. Il nomadismo digitale nella sua forma più pura.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Filippine -->
+        <div class="pin" style="left:84%;top:46%;" onclick="showTip(event,'Filippine','7.000 isole e il wifi peggiore del mondo. Mentre lo cercavo, mi sono dedicata al sub. Non è andata poi così male.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Cina -->
+        <div class="pin" style="left:80%;top:37%;" onclick="showTip(event,'Cina','La cucina più onesta del mondo: niente fuffa, solo sapore. Ho preso appunti anche lì — sul cibo e sulla comunicazione.')">
+          <div class="pin-dot"></div>
+        </div>
+        <!-- Nuova Zelanda -->
+        <div class="pin" style="left:91%;top:68%;" onclick="showTip(event,'Nuova Zelanda','Bungee jumping e paracadutismo nello stesso viaggio. Ho scoperto che l\'adrenalina e la paura dell\'ignoto creano dipendenza. Anche nel lavoro.')">
+          <div class="pin-dot"></div>
+        </div>
       </div>
     </div>
 
@@ -341,17 +270,20 @@
 
   </div>
 
+  <div class="tooltip" id="tip">
+    <div class="city" id="tip-city"></div>
+    <div class="phrase" id="tip-phrase"></div>
+  </div>
+
   <script>
     function showTip(e, city, phrase) {
       const tip = document.getElementById('tip');
-      const wrap = document.getElementById('mapwrap');
-      const rect = wrap.getBoundingClientRect();
       document.getElementById('tip-city').textContent = city;
       document.getElementById('tip-phrase').textContent = phrase;
       tip.classList.add('visible');
-      let x = e.clientX - rect.left + 12;
-      let y = e.clientY - rect.top - 10;
-      if (x + 230 > rect.width) x = e.clientX - rect.left - 230;
+      let x = e.clientX + 14;
+      let y = e.clientY - 10;
+      if (x + 250 > window.innerWidth) x = e.clientX - 260;
       if (y < 0) y = 10;
       tip.style.left = x + 'px';
       tip.style.top = y + 'px';
