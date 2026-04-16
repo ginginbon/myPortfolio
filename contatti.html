@@ -43,7 +43,7 @@
       width: 100%;
       display: block;
       border-radius: 12px;
-      filter: hue-rotate(150deg) saturate(1.2) brightness(0.88);
+      filter: url(#duotone);
     }
 
     /* ── PIN ── */
@@ -192,62 +192,74 @@
       <p class="map-sub">Freelance non significa stare ferma.<br>Clicca i pin per scoprire dove sono stata — e cosa mi ha lasciato.</p>
 
       <div class="map-container" id="mapwrap">
+        <svg width="0" height="0" style="position:absolute">
+          <defs>
+            <filter id="duotone" color-interpolation-filters="sRGB">
+              <feColorMatrix type="saturate" values="0" result="grey"/>
+              <feComponentTransfer result="duotone">
+                <feFuncR type="table" tableValues="0.133 0.859"/>
+                <feFuncG type="table" tableValues="0.145 0.169"/>
+                <feFuncB type="table" tableValues="0.180 0.337"/>
+              </feComponentTransfer>
+            </filter>
+          </defs>
+        </svg>
         <img src="images/mappa.jpg" alt="Mappa del mondo" class="map-img" />
 
         <!-- Milano — base -->
-        <div class="pin base" style="left:59%;top:33%;" onclick="showTip(event,'Milano','Quartier generale. Aperitivo imprescindibile. Da qui parte tutto — e qui torno sempre.')">
+        <div class="pin base" style="left:50%;top:27%;" onclick="showTip(event,'Milano','Quartier generale. Aperitivo imprescindibile. Da qui parte tutto — e qui torno sempre.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Spagna -->
-        <div class="pin" style="left:46%;top:35%;" onclick="showTip(event,'Spagna','La lingua la parlo, il ritmo di vita lo invidio. Ho capito che lavorare alle 14 è un crimine contro l\'umanità.')">
+        <div class="pin" style="left:47%;top:30%;" onclick="showTip(event,'Spagna','La lingua la parlo, il ritmo di vita lo invidio. Ho capito che lavorare alle 14 è un crimine contro l\'umanità.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Francia -->
-        <div class="pin" style="left:51%;top:30%;" onclick="showTip(event,'Francia','Il paese che mi ha insegnato che il vino non è una bevanda, è una filosofia. Sto ancora studiando.')">
+        <div class="pin" style="left:48%;top:25%;" onclick="showTip(event,'Francia','Il paese che mi ha insegnato che il vino non è una bevanda, è una filosofia. Sto ancora studiando.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Gran Bretagna -->
-        <div class="pin" style="left:49%;top:23%;" onclick="showTip(event,'Gran Bretagna','Tra il tè delle cinque e i pub, un posto dove rifugiarsi per lavorare quando piove lo trovi sempre. E piove spesso, quindi sono diventata molto produttiva.')">
+        <div class="pin" style="left:47%;top:21%;" onclick="showTip(event,'Gran Bretagna','Tra il tè delle cinque e i pub, un posto dove rifugiarsi per lavorare quando piove lo trovi sempre. E piove spesso, quindi sono diventata molto produttiva.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Olanda -->
-        <div class="pin" style="left:53%;top:25%;" onclick="showTip(event,'Olanda','Canali, bici e brief creativi scritti su una panchina. La città più produttiva in cui abbia mai procrastinato.')">
+        <div class="pin" style="left:49%;top:22%;" onclick="showTip(event,'Olanda','Canali, bici e brief creativi scritti su una panchina. La città più produttiva in cui abbia mai procrastinato.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Bosnia -->
-        <div class="pin" style="left:57%;top:30%;" onclick="showTip(event,'Bosnia','Una città che racconta la storia senza alzare la voce. Ho imparato più sul potere delle parole qui che in qualsiasi corso.')">
+        <div class="pin" style="left:52%;top:27%;" onclick="showTip(event,'Bosnia','Una città che racconta la storia senza alzare la voce. Ho imparato più sul potere delle parole qui che in qualsiasi corso.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Egitto -->
-        <div class="pin" style="left:61%;top:43%;" onclick="showTip(event,'Egitto','Tremila anni di storytelling e io lì a prendere appunti. La narrativa dei Faraoni? Ottimo personal branding.')">
+        <div class="pin" style="left:55%;top:36%;" onclick="showTip(event,'Egitto','Tremila anni di storytelling e io lì a prendere appunti. La narrativa dei Faraoni? Ottimo personal branding.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Giordania -->
-        <div class="pin" style="left:65%;top:41%;" onclick="showTip(event,'Giordania','Petra è l\'unico posto che mi ha lasciato senza parole. Per chi vive di parole, capirete che non è una cosa da poco.')">
+        <div class="pin" style="left:57%;top:35%;" onclick="showTip(event,'Giordania','Petra è l\'unico posto che mi ha lasciato senza parole. Per chi vive di parole, capirete che non è una cosa da poco.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Siria -->
-        <div class="pin" style="left:64%;top:36%;" onclick="showTip(event,'Siria','L\'anno prima che scoppiasse la guerra, un signore raccontava storie suonando in una lingua che non capivo. Eppure capivo tutto. Lì ho capito cos\'è davvero lo storytelling.')">
+        <div class="pin" style="left:57%;top:33%;" onclick="showTip(event,'Siria','L\'anno prima che scoppiasse la guerra, un signore raccontava storie suonando in una lingua che non capivo. Eppure capivo tutto. Lì ho capito cos\'è davvero lo storytelling.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Stati Uniti -->
-        <div class="pin" style="left:23%;top:32%;" onclick="showTip(event,'Stati Uniti','Tutto funziona veloce, tutto comunica forte. Ho capito che il mio ritmo è europeo — ma l\'ambizione no.')">
+        <div class="pin" style="left:29%;top:30%;" onclick="showTip(event,'Stati Uniti','Tutto funziona veloce, tutto comunica forte. Ho capito che il mio ritmo è europeo — ma l\'ambizione no.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Malesia -->
-        <div class="pin" style="left:78%;top:52%;" onclick="showTip(event,'Malesia','Street food alle 7 di mattina, laptop aperto e deadline rispettate. Il nomadismo digitale nella sua forma più pura.')">
+        <div class="pin" style="left:73%;top:52%;" onclick="showTip(event,'Malesia','Street food alle 7 di mattina, laptop aperto e deadline rispettate. Il nomadismo digitale nella sua forma più pura.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Filippine -->
-        <div class="pin" style="left:84%;top:46%;" onclick="showTip(event,'Filippine','7.000 isole e il wifi peggiore del mondo. Mentre lo cercavo, mi sono dedicata al sub. Non è andata poi così male.')">
+        <div class="pin" style="left:78%;top:45%;" onclick="showTip(event,'Filippine','7.000 isole e il wifi peggiore del mondo. Mentre lo cercavo, mi sono dedicata al sub. Non è andata poi così male.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Cina -->
-        <div class="pin" style="left:80%;top:37%;" onclick="showTip(event,'Cina','La cucina più onesta del mondo: niente fuffa, solo sapore. Ho preso appunti anche lì — sul cibo e sulla comunicazione.')">
+        <div class="pin" style="left:77%;top:30%;" onclick="showTip(event,'Cina','La cucina più onesta del mondo: niente fuffa, solo sapore. Ho preso appunti anche lì — sul cibo e sulla comunicazione.')">
           <div class="pin-dot"></div>
         </div>
         <!-- Nuova Zelanda -->
-        <div class="pin" style="left:91%;top:68%;" onclick="showTip(event,'Nuova Zelanda','Bungee jumping e paracadutismo nello stesso viaggio. Ho scoperto che l\'adrenalina e la paura dell\'ignoto creano dipendenza. Anche nel lavoro.')">
+        <div class="pin" style="left:91%;top:77%;" onclick="showTip(event,'Nuova Zelanda','Bungee jumping e paracadutismo nello stesso viaggio. Ho scoperto che l\'adrenalina e la paura dell\'ignoto creano dipendenza. Anche nel lavoro.')">
           <div class="pin-dot"></div>
         </div>
       </div>
