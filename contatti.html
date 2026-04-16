@@ -40,65 +40,32 @@
       overflow: visible;
     }
 
-    /* ── PLACEHOLDER MAPPA (sostituire con SVG) ── */
-    .map-placeholder {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: #dde3ea;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #aaa;
-      font-size: 0.85rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* ── PIN ── */
-    .pin {
+    /* ── MAPPA SVG ── */
+    .map-wrap { position: relative; width: 100%; background: #f8f6f0; border-radius: 12px; overflow: hidden; }
+    .map-wrap svg { display: block; width: 100%; height: auto; }
+    .pin { cursor: pointer; }
+    .pin circle { transition: r 0.2s, opacity 0.2s; }
+    .pin:hover circle.outer { r: 10; opacity: 0.25; }
+    .tooltip {
       position: absolute;
-      width: 12px;
-      height: 12px;
-      background: #db2b56;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      cursor: pointer;
-      transform: translate(-50%, -50%);
-      transition: transform 0.2s;
-      z-index: 2;
-    }
-
-    .pin:hover { transform: translate(-50%, -50%) scale(1.4); }
-
-    .pin-tooltip {
-      display: none;
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--dark);
+      background: #1a1a1a;
       color: #fff;
-      padding: 8px 12px;
       border-radius: 8px;
-      font-size: 0.78rem;
-      white-space: nowrap;
-      z-index: 10;
+      padding: 10px 14px;
+      font-size: 13px;
       line-height: 1.5;
-      text-align: center;
+      max-width: 220px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 10;
     }
-
-    .pin-tooltip::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 5px solid transparent;
-      border-top-color: var(--dark);
-    }
-
-    .pin.active .pin-tooltip { display: block; }
+    .tooltip.visible { opacity: 1; }
+    .tooltip .city { font-weight: 600; font-size: 12px; color: #db2b56; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .tooltip .phrase { font-size: 13px; color: #f5f5f5; }
+    .legend { display: flex; gap: 16px; padding: 10px 16px; font-size: 11px; color: #888; border-top: 0.5px solid #e5e5e5; background: #fff; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
     /* ── DESTRA: FORM ── */
     .form-section h2 {
@@ -193,22 +160,92 @@
       <h2>Di base a Milano. Disponibile ovunque.</h2>
       <p class="map-sub">Freelance non significa stare ferma.<br>Clicca i pin per scoprire dove sono stata — e cosa mi ha lasciato.</p>
 
-      <div class="map-container">
-        <!-- INCOLLA QUI IL CODICE SVG DELLA MAPPA -->
-        <div class="map-placeholder">
-          Mappa in arrivo
+      <div class="map-wrap" id="mapwrap">
+        <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+          <rect width="1000" height="500" fill="#dce8f0"/>
+          <path fill="#e8e0d0" stroke="#ccc" stroke-width="0.5" d="M120,180 L180,160 L220,155 L260,150 L300,148 L340,145 L380,148 L400,155 L420,160 L440,158 L460,155 L480,150 L500,148 L480,200 L460,220 L440,240 L420,250 L400,260 L380,265 L360,268 L340,265 L320,260 L300,255 L280,250 L260,240 L240,225 L220,210 L200,200 L160,195 Z"/>
+          <path fill="#e8e0d0" stroke="#ccc" stroke-width="0.5" d="M480,148 L560,140 L640,135 L700,130 L760,128 L820,130 L860,135 L880,145 L890,160 L885,180 L875,200 L860,215 L840,225 L820,230 L800,228 L780,225 L760,220 L740,218 L720,215 L700,218 L680,220 L660,215 L640,210 L620,205 L600,200 L580,195 L560,190 L540,185 L520,178 L500,172 L480,165 Z"/>
+          <path fill="#e8e0d0" stroke="#ccc" stroke-width="0.5" d="M500,172 L520,178 L540,200 L550,220 L545,240 L535,255 L520,260 L505,258 L492,250 L485,235 L483,215 L487,195 Z"/>
+          <path fill="#e8e0d0" stroke="#ccc" stroke-width="0.5" d="M640,210 L680,220 L700,240 L710,260 L705,280 L695,295 L680,300 L665,295 L655,280 L650,260 L648,240 L645,220 Z"/>
+          <path fill="#e8e0d0" stroke="#ccc" stroke-width="0.5" d="M700,218 L740,218 L760,230 L770,250 L765,270 L750,280 L735,278 L720,268 L712,252 L708,235 Z"/>
+          <path fill="#e8e0d0" stroke="#ccc" stroke-width="0.5" d="M160,260 L200,255 L240,258 L260,270 L265,290 L255,310 L235,320 L210,318 L190,308 L175,292 L165,275 Z"/>
+          <path fill="#e8e0d0" stroke="#ccc" stroke-width="0.5" d="M820,240 L870,238 L910,245 L940,260 L945,280 L935,295 L915,300 L895,295 L878,282 L862,265 L845,252 Z"/>
+          <path fill="#e8e0d0" stroke="#ccc" stroke-width="0.5" d="M60,300 L100,290 L130,295 L145,310 L140,330 L125,340 L105,338 L88,325 L72,312 Z"/>
+          <path fill="#e8e0d0" stroke="#ccc" stroke-width="0.5" d="M200,340 L240,335 L270,345 L280,365 L270,380 L250,385 L228,380 L212,365 L205,350 Z"/>
+          <path fill="#c8dce8" stroke="#aac8dc" stroke-width="0.3" d="M930,340 L960,330 L980,345 L975,365 L955,370 L935,358 Z"/>
+          <path fill="#c8dce8" stroke="#aac8dc" stroke-width="0.3" d="M940,390 L970,385 L985,400 L978,415 L958,418 L942,405 Z"/>
+          <path fill="#c8dce8" stroke="#aac8dc" stroke-width="0.3" d="M870,370 L895,365 L905,380 L898,392 L878,393 L866,382 Z"/>
 
-          <!-- Pin di esempio — posizionali sulle coordinate corrette nel tuo SVG -->
-          <div class="pin" style="top:38%; left:51%">
-            <div class="pin-tooltip">Milano<br><em>Il posto da cui parto.</em></div>
-          </div>
-          <div class="pin" style="top:33%; left:47%">
-            <div class="pin-tooltip">Londra<br><em>Dove ho capito cosa volevo fare.</em></div>
-          </div>
-          <div class="pin" style="top:40%; left:49%">
-            <div class="pin-tooltip">Barcellona<br><em>Creatività senza confini.</em></div>
-          </div>
+          <g class="pin" onclick="showTip(event,'Milano','Quartier generale. Aperitivo imprescindibile. Da qui parte tutto — e qui torno sempre.')">
+            <circle cx="490" cy="168" r="14" fill="#db2b56" opacity="0.15" class="outer"/>
+            <circle cx="490" cy="168" r="7" fill="#db2b56"/>
+            <circle cx="490" cy="168" r="3" fill="#fff"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Spagna','La lingua la parlo, il ritmo di vita lo invidio. Ho capito che lavorare alle 14 è un crimine contro l\'umanità.')">
+            <circle cx="438" cy="172" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
+            <circle cx="438" cy="172" r="5" fill="#7F77DD"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Francia','Il paese che mi ha insegnato che il vino non è una bevanda, è una filosofia. Sto ancora studiando.')">
+            <circle cx="458" cy="163" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
+            <circle cx="458" cy="163" r="5" fill="#7F77DD"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'UK','Pioggia, sarcasmo e copywriting d\'eccellenza. Mi sono sentita a casa.')">
+            <circle cx="447" cy="152" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
+            <circle cx="447" cy="152" r="5" fill="#7F77DD"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Amsterdam','Canali, bici e brief creativi scritti su una panchina. La città più produttiva in cui abbia mai procrastinato.')">
+            <circle cx="466" cy="150" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
+            <circle cx="466" cy="150" r="5" fill="#7F77DD"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Sarajevo','Una città che racconta la storia senza alzare la voce. Ho imparato più sul potere delle parole qui che in qualsiasi corso.')">
+            <circle cx="498" cy="163" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
+            <circle cx="498" cy="163" r="5" fill="#7F77DD"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Egitto','Tremila anni di storytelling e io lì a prendere appunti. La narrativa dei Faraoni? Ottimo personal branding.')">
+            <circle cx="530" cy="195" r="10" fill="#1D9E75" opacity="0.15" class="outer"/>
+            <circle cx="530" cy="195" r="5" fill="#1D9E75"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Giordania','Petra esiste davvero. Ho scritto i copy migliori della mia vita in un riad con vista sul deserto.')">
+            <circle cx="548" cy="195" r="10" fill="#1D9E75" opacity="0.15" class="outer"/>
+            <circle cx="548" cy="195" r="5" fill="#1D9E75"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Siria','Il posto che più mi ha cambiato. La bellezza e la complessità del mondo in un unico luogo. Alcune storie vanno oltre le parole.')">
+            <circle cx="555" cy="183" r="10" fill="#1D9E75" opacity="0.15" class="outer"/>
+            <circle cx="555" cy="183" r="5" fill="#1D9E75"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'New York','Tutto funziona veloce, tutto comunica forte. Ho capito che il mio ritmo è europeo — ma l\'ambizione no.')">
+            <circle cx="248" cy="175" r="10" fill="#7F77DD" opacity="0.15" class="outer"/>
+            <circle cx="248" cy="175" r="5" fill="#7F77DD"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Malesia','Street food alle 7 di mattina, laptop aperto e deadline rispettate. Il nomadismo digitale nella sua forma più pura.')">
+            <circle cx="760" cy="248" r="10" fill="#D85A30" opacity="0.15" class="outer"/>
+            <circle cx="760" cy="248" r="5" fill="#D85A30"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Filippine','7.000 isole e io ho scelto quella con il wifi più lento. Ne è valsa la pena.')">
+            <circle cx="810" cy="238" r="10" fill="#D85A30" opacity="0.15" class="outer"/>
+            <circle cx="810" cy="238" r="5" fill="#D85A30"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Cina','La cucina più onesta del mondo: niente fuffa, solo sapore. Ho preso appunti anche lì — sul cibo e sulla comunicazione.')">
+            <circle cx="790" cy="190" r="10" fill="#D85A30" opacity="0.15" class="outer"/>
+            <circle cx="790" cy="190" r="5" fill="#D85A30"/>
+          </g>
+          <g class="pin" onclick="showTip(event,'Nuova Zelanda','Ho saltato da un ponte. Ho capito che il coraggio funziona allo stesso modo nel lavoro — ci vuole un attimo per buttarsi.')">
+            <circle cx="930" cy="400" r="10" fill="#D85A30" opacity="0.15" class="outer"/>
+            <circle cx="930" cy="400" r="5" fill="#D85A30"/>
+          </g>
+        </svg>
+
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#db2b56"></div> Base</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div> Europa &amp; Nord America</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div> Medio Oriente</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#D85A30"></div> Asia &amp; Oceania</div>
         </div>
+      </div>
+
+      <div class="tooltip" id="tip">
+        <div class="city" id="tip-city"></div>
+        <div class="phrase" id="tip-phrase"></div>
       </div>
     </div>
 
@@ -230,17 +267,24 @@
   </div>
 
   <script>
-    document.querySelectorAll('.pin').forEach(pin => {
-      pin.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const isActive = this.classList.contains('active');
-        document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
-        if (!isActive) this.classList.add('active');
-      });
-    });
-
-    document.addEventListener('click', () => {
-      document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+    function showTip(e, city, phrase) {
+      const tip = document.getElementById('tip');
+      const wrap = document.getElementById('mapwrap');
+      const rect = wrap.getBoundingClientRect();
+      document.getElementById('tip-city').textContent = city;
+      document.getElementById('tip-phrase').textContent = phrase;
+      tip.classList.add('visible');
+      let x = e.clientX - rect.left + 12;
+      let y = e.clientY - rect.top - 10;
+      if (x + 230 > rect.width) x = e.clientX - rect.left - 230;
+      if (y < 0) y = 10;
+      tip.style.left = x + 'px';
+      tip.style.top = y + 'px';
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.pin')) {
+        document.getElementById('tip').classList.remove('visible');
+      }
     });
   </script>
 
