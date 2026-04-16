@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contatti — Ginevra Boneschi</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     body { background: #f5f5f5; font-family: 'DM Sans', system-ui, sans-serif; }
 
@@ -32,75 +34,63 @@
       margin-bottom: 1.5rem;
     }
 
-    .map-container {
-      position: relative;
+    #map {
       width: 100%;
+      height: 450px;
       border-radius: 12px;
       overflow: hidden;
     }
 
-    .map-img {
-      width: 100%;
-      display: block;
-      border-radius: 12px;
-      filter: url(#duotone);
+    /* ── POPUP LEAFLET ── */
+    .leaflet-popup-content-wrapper {
+      background: #1a1a1a !important;
+      color: #fff !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+      padding: 0 !important;
     }
 
-    /* ── PIN ── */
-    .pin {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-      z-index: 2;
+    .leaflet-popup-content {
+      margin: 10px 14px !important;
     }
 
-    .pin-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #fff;
-      border: 2px solid rgba(255,255,255,0.6);
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.25);
-      transition: transform 0.2s;
+    .leaflet-popup-tip {
+      display: none !important;
     }
 
-    .pin.base .pin-dot {
-      width: 13px;
-      height: 13px;
-      background: #fff;
-      box-shadow: 0 0 0 4px rgba(255,255,255,0.35);
+    .leaflet-popup-tip-container {
+      display: none !important;
     }
 
-    .pin:hover .pin-dot {
-      transform: scale(1.5);
+    .leaflet-popup-close-button {
+      color: #888 !important;
+      top: 6px !important;
+      right: 8px !important;
     }
 
-    /* ── TOOLTIP ── */
-    .tooltip {
-      position: fixed;
-      background: #22252e;
-      color: #fff;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 13px;
-      line-height: 1.5;
-      max-width: 240px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.2s;
-      z-index: 100;
-    }
-
-    .tooltip.visible { opacity: 1; }
-    .tooltip .city {
+    .popup-city {
       font-weight: 600;
       font-size: 11px;
       color: #db2b56;
-      margin-bottom: 4px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      margin-bottom: 4px;
     }
-    .tooltip .phrase { font-size: 13px; color: #f0f0f0; }
+
+    .popup-phrase {
+      font-size: 13px;
+      color: #f0f0f0;
+      line-height: 1.5;
+      max-width: 220px;
+    }
+
+    /* ── MARKER PUNTINI ── */
+    .marker-dot {
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.4);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.15);
+      transition: transform 0.2s;
+    }
 
     /* ── DESTRA: FORM ── */
     .form-section h2 {
@@ -190,79 +180,7 @@
     <div class="map-section">
       <h2>Di base a Milano. Disponibile ovunque.</h2>
       <p class="map-sub">Freelance non significa stare ferma.<br>Clicca i pin per scoprire dove sono stata — e cosa mi ha lasciato.</p>
-
-      <div class="map-container" id="mapwrap">
-        <svg width="0" height="0" style="position:absolute">
-          <defs>
-            <filter id="duotone" color-interpolation-filters="sRGB">
-              <feColorMatrix type="saturate" values="0" result="grey"/>
-              <feComponentTransfer result="duotone">
-                <feFuncR type="table" tableValues="0.133 0.859"/>
-                <feFuncG type="table" tableValues="0.145 0.169"/>
-                <feFuncB type="table" tableValues="0.180 0.337"/>
-              </feComponentTransfer>
-            </filter>
-          </defs>
-        </svg>
-        <img src="images/mappa.jpg" alt="Mappa del mondo" class="map-img" />
-
-        <!-- Milano — base -->
-        <div class="pin base" style="left:50%;top:27%;" onclick="showTip(event,'Milano','Quartier generale. Aperitivo imprescindibile. Da qui parte tutto — e qui torno sempre.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Spagna -->
-        <div class="pin" style="left:47%;top:30%;" onclick="showTip(event,'Spagna','La lingua la parlo, il ritmo di vita lo invidio. Ho capito che lavorare alle 14 è un crimine contro l\'umanità.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Francia -->
-        <div class="pin" style="left:48%;top:25%;" onclick="showTip(event,'Francia','Il paese che mi ha insegnato che il vino non è una bevanda, è una filosofia. Sto ancora studiando.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Gran Bretagna -->
-        <div class="pin" style="left:47%;top:21%;" onclick="showTip(event,'Gran Bretagna','Tra il tè delle cinque e i pub, un posto dove rifugiarsi per lavorare quando piove lo trovi sempre. E piove spesso, quindi sono diventata molto produttiva.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Olanda -->
-        <div class="pin" style="left:49%;top:22%;" onclick="showTip(event,'Olanda','Canali, bici e brief creativi scritti su una panchina. La città più produttiva in cui abbia mai procrastinato.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Bosnia -->
-        <div class="pin" style="left:52%;top:27%;" onclick="showTip(event,'Bosnia','Una città che racconta la storia senza alzare la voce. Ho imparato più sul potere delle parole qui che in qualsiasi corso.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Egitto -->
-        <div class="pin" style="left:55%;top:36%;" onclick="showTip(event,'Egitto','Tremila anni di storytelling e io lì a prendere appunti. La narrativa dei Faraoni? Ottimo personal branding.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Giordania -->
-        <div class="pin" style="left:57%;top:35%;" onclick="showTip(event,'Giordania','Petra è l\'unico posto che mi ha lasciato senza parole. Per chi vive di parole, capirete che non è una cosa da poco.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Siria -->
-        <div class="pin" style="left:57%;top:33%;" onclick="showTip(event,'Siria','L\'anno prima che scoppiasse la guerra, un signore raccontava storie suonando in una lingua che non capivo. Eppure capivo tutto. Lì ho capito cos\'è davvero lo storytelling.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Stati Uniti -->
-        <div class="pin" style="left:29%;top:30%;" onclick="showTip(event,'Stati Uniti','Tutto funziona veloce, tutto comunica forte. Ho capito che il mio ritmo è europeo — ma l\'ambizione no.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Malesia -->
-        <div class="pin" style="left:73%;top:52%;" onclick="showTip(event,'Malesia','Street food alle 7 di mattina, laptop aperto e deadline rispettate. Il nomadismo digitale nella sua forma più pura.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Filippine -->
-        <div class="pin" style="left:78%;top:45%;" onclick="showTip(event,'Filippine','7.000 isole e il wifi peggiore del mondo. Mentre lo cercavo, mi sono dedicata al sub. Non è andata poi così male.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Cina -->
-        <div class="pin" style="left:77%;top:30%;" onclick="showTip(event,'Cina','La cucina più onesta del mondo: niente fuffa, solo sapore. Ho preso appunti anche lì — sul cibo e sulla comunicazione.')">
-          <div class="pin-dot"></div>
-        </div>
-        <!-- Nuova Zelanda -->
-        <div class="pin" style="left:91%;top:77%;" onclick="showTip(event,'Nuova Zelanda','Bungee jumping e paracadutismo nello stesso viaggio. Ho scoperto che l\'adrenalina e la paura dell\'ignoto creano dipendenza. Anche nel lavoro.')">
-          <div class="pin-dot"></div>
-        </div>
-      </div>
+      <div id="map"></div>
     </div>
 
     <!-- DESTRA: FORM -->
@@ -282,28 +200,58 @@
 
   </div>
 
-  <div class="tooltip" id="tip">
-    <div class="city" id="tip-city"></div>
-    <div class="phrase" id="tip-phrase"></div>
-  </div>
-
   <script>
-    function showTip(e, city, phrase) {
-      const tip = document.getElementById('tip');
-      document.getElementById('tip-city').textContent = city;
-      document.getElementById('tip-phrase').textContent = phrase;
-      tip.classList.add('visible');
-      let x = e.clientX + 14;
-      let y = e.clientY - 10;
-      if (x + 250 > window.innerWidth) x = e.clientX - 260;
-      if (y < 0) y = 10;
-      tip.style.left = x + 'px';
-      tip.style.top = y + 'px';
+    function makeIcon(color, size) {
+      return L.divIcon({
+        className: '',
+        html: `<div class="marker-dot" style="width:${size}px;height:${size}px;background:${color};"></div>`,
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+        popupAnchor: [0, -(size / 2 + 6)]
+      });
     }
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.pin')) {
-        document.getElementById('tip').classList.remove('visible');
-      }
+
+    function makePopup(city, phrase) {
+      return `<div class="popup-city">${city}</div><div class="popup-phrase">${phrase}</div>`;
+    }
+
+    const map = L.map('map', {
+      center: [20, 20],
+      zoom: 2,
+      scrollWheelZoom: false
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18
+    }).addTo(map);
+
+    const iconEU  = makeIcon('#7F77DD', 12);
+    const iconME  = makeIcon('#1D9E75', 12);
+    const iconAS  = makeIcon('#D85A30', 12);
+    const iconMI  = makeIcon('#db2b56', 16);
+
+    const markers = [
+      { lat: 45.4654, lng:   9.1859, icon: iconMI,  city: 'Milano',         phrase: 'Quartier generale. Aperitivo imprescindibile. Da qui parte tutto e qui torno sempre.' },
+      { lat: 40.4168, lng:  -3.7038, icon: iconEU,  city: 'Spagna',         phrase: "La lingua la parlo, il ritmo di vita lo invidio. Ho capito che lavorare alle 14 è un crimine contro l'umanità." },
+      { lat: 46.2276, lng:   2.2137, icon: iconEU,  city: 'Francia',        phrase: "Il paese che mi ha insegnato che il vino non è una bevanda, è una filosofia. Sto ancora studiando." },
+      { lat: 51.5074, lng:  -0.1278, icon: iconEU,  city: 'Gran Bretagna',  phrase: "Tra il tè delle cinque e i pub, un posto dove rifugiarsi per lavorare quando piove lo trovi sempre. E piove spesso, quindi sono diventata molto produttiva." },
+      { lat: 52.3676, lng:   4.9041, icon: iconEU,  city: 'Olanda',         phrase: "Canali, bici e brief creativi scritti su una panchina. La città più produttiva in cui abbia mai procrastinato." },
+      { lat: 43.8563, lng:  18.4131, icon: iconEU,  city: 'Bosnia',         phrase: "Una città che racconta la storia senza alzare la voce. Ho imparato più sul potere delle parole qui che in qualsiasi corso." },
+      { lat: 26.8206, lng:  30.8025, icon: iconME,  city: 'Egitto',         phrase: "Tremila anni di storytelling e io lì a prendere appunti. La narrativa dei Faraoni? Ottimo personal branding." },
+      { lat: 30.5852, lng:  36.2384, icon: iconME,  city: 'Giordania',      phrase: "Petra è l'unico posto che mi ha lasciato senza parole. Per chi vive di parole, capirete che non è una cosa da poco." },
+      { lat: 34.8021, lng:  38.9968, icon: iconME,  city: 'Siria',          phrase: "L'anno prima che scoppiasse la guerra, un signore raccontava storie suonando in una lingua che non capivo. Eppure capivo tutto. Lì ho capito cos'è davvero lo storytelling." },
+      { lat: 40.7128, lng: -74.0060, icon: iconEU,  city: 'Stati Uniti',    phrase: "Tutto funziona veloce, tutto comunica forte. Ho capito che il mio ritmo è europeo, ma l'ambizione no." },
+      { lat:  4.2105, lng: 101.9758, icon: iconAS,  city: 'Malesia',        phrase: "Street food alle 7 di mattina, laptop aperto e deadline rispettate. Il nomadismo digitale nella sua forma più pura." },
+      { lat: 12.8797, lng: 121.7740, icon: iconAS,  city: 'Filippine',      phrase: "7.000 isole e il wifi peggiore del mondo. Mentre lo cercavo, mi sono dedicata al sub. Non è andata poi così male." },
+      { lat: 35.8617, lng: 104.1954, icon: iconAS,  city: 'Cina',           phrase: "La cucina più onesta del mondo: niente fuffa, solo sapore. Ho preso appunti anche lì, sul cibo e sulla comunicazione." },
+      { lat:-40.9006, lng: 172.8860, icon: iconAS,  city: 'Nuova Zelanda',  phrase: "Bungee jumping e paracadutismo nello stesso viaggio. Ho scoperto che l'adrenalina e la paura dell'ignoto creano dipendenza. Anche nel lavoro." },
+    ];
+
+    markers.forEach(function(m) {
+      L.marker([m.lat, m.lng], { icon: m.icon })
+        .addTo(map)
+        .bindPopup(makePopup(m.city, m.phrase), { maxWidth: 260 });
     });
   </script>
 
