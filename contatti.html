@@ -18,23 +18,42 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
-      align-items: start;
+      align-items: stretch;
     }
 
     /* ── SINISTRA: IMMAGINE ── */
+    .contatti-img-wrap {
+      display: flex;
+    }
+
     .contatti-img {
       width: 100%;
-      height: 100%;
       object-fit: cover;
+      object-position: center top;
       border-radius: 12px;
       display: block;
     }
 
     /* ── DESTRA: FORM ── */
+    .form-section {
+      display: flex;
+      flex-direction: column;
+    }
+
     .form-section h2 {
-      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: #888;
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+    }
+
+    .form-section .form-headline {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
       color: var(--dark);
-      margin-bottom: 0.5rem;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
     }
 
     .form-section .form-sub {
@@ -194,12 +213,15 @@
   <div class="contatti-top">
 
     <!-- SINISTRA: IMMAGINE -->
-    <img src="images/Contatti.jpg.png" alt="Ginevra Boneschi" class="contatti-img" />
+    <div class="contatti-img-wrap">
+      <img src="images/Contatti.jpg.png" alt="Ginevra Boneschi" class="contatti-img" />
+    </div>
 
     <!-- DESTRA: FORM -->
     <div class="form-section">
-      <h2>Scriviamo qualcosa insieme</h2>
-      <p class="form-sub">Se sei arrivato fin qui,<br>probabilmente abbiamo qualcosa da dirci.</p>
+      <h2>Hai un progetto di cui vuoi parlare?</h2>
+      <p class="form-headline">CONTATTAMI</p>
+      <p class="form-sub">Il cellulare è spento solo quando è in modalità aereo e sto volando verso la mia prossima destinazione. Ma uno spostamento non dura mai più di 48 ore, per cui conto di risponderti velocemente.</p>
 
       <form class="contact-form" action="https://formspree.io/f/TUOCODICE" method="POST">
         <input type="hidden" name="_subject" value="Nuovo contatto — Ginevra Boneschi" />
@@ -207,7 +229,7 @@
         <input type="text" name="name" placeholder="Come ti chiami" required />
         <input type="email" name="email" placeholder="La tua email" required />
         <textarea name="message" placeholder="Raccontami del progetto" rows="5" required></textarea>
-        <button type="submit" class="btn-submit">Inviami un messaggio →</button>
+        <button type="submit" class="btn-submit">Invia il messaggio →</button>
       </form>
     </div>
 
@@ -215,8 +237,8 @@
 
   <!-- SOTTO: MAPPA -->
   <div class="map-section">
-    <h2>Di base a Milano. Disponibile ovunque.</h2>
-    <p class="map-sub">Freelance non significa stare ferma.<br>Clicca i pin per scoprire dove sono stata — e cosa mi ha lasciato.</p>
+    <h2>Di base a Milano, ma non mi piace stare ferma troppo a lungo.</h2>
+    <p class="map-sub">Ho scelto la vita da freelance perché mi permette di poter lavorare e viaggiare. Clicca i pin per scoprire dove sono stata. Ogni posto ha lasciato qualcosa dentro di me: una storia, un'idea o semplicemente una nuova prospettiva.</p>
     <div id="map"></div>
   </div>
 
