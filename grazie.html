@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messaggio inviato — Ginevra Boneschi</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { background: #f5f5f5; font-family: 'DM Sans', system-ui, sans-serif; }
+
+    .grazie-wrap {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    .grazie-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #db2b56;
+      margin-bottom: 1rem;
+    }
+
+    .grazie-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+
+    .grazie-sub {
+      font-size: 1rem;
+      color: #888;
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-back {
+      display: inline-block;
+      background: #db2b56;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 12px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+
+    .btn-back:hover { background: #b02040; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">GB</a>
+    <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="index.html#about">Chi sono</a></li>
+      <li><a href="projects.html">Progetti</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+      <li><a href="contatti.html">Contatti</a></li>
+      <li><a href="assets/cv.pdf" target="_blank">CV</a></li>
+    </ul>
+  </nav>
+
+  <div class="grazie-wrap">
+    <p class="grazie-label">Messaggio ricevuto</p>
+    <h1 class="grazie-title">Grazie per avermi scritto.</h1>
+    <p class="grazie-sub">Ho letto il tuo messaggio e ti risponderò al più presto — o appena atterro, se sono in volo.</p>
+    <a href="index.html" class="btn-back">Torna alla home →</a>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
